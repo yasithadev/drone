@@ -49,7 +49,7 @@ public class Drone implements Serializable {
     @Column(name = "weight_limit")
     private Integer weightLimit;
     @Column(name = "state")
-    private String state;
+    private String state;//IDLE, LOADING, LOADED, DELIVERING, DELIVERED, RETURNING
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "droneId")
     private Collection<Load> loadCollection;
     @OneToMany(mappedBy = "droneId")

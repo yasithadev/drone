@@ -11,6 +11,8 @@ import jakarta.persistence.Basic;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -24,14 +26,17 @@ import jakarta.persistence.Table;
  * @author yasitha
  */
 @Entity
-@Table(name = "load")
+@Table(name = "load_")
+/*
 @NamedQueries({
     @NamedQuery(name = "Load.findAll", query = "SELECT l FROM Load l"),
     @NamedQuery(name = "Load.findByLoadId", query = "SELECT l FROM Load l WHERE l.loadId = :loadId")})
+*/
 public class Load implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "load_id")
     private Integer loadId;
