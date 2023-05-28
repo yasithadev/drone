@@ -11,7 +11,7 @@ import com.example.drone.service.RegisterService;
 
 @RestController
 @RequestMapping("/register")
-public class Register {
+public class RegisterController {
 	@Autowired
 	RegisterService register;
 	

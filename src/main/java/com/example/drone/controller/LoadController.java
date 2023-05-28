@@ -17,7 +17,7 @@ import com.example.drone.service.RegisterService;
 
 @RestController
 @RequestMapping("/load")
-public class Load {
+public class LoadController {
 	@Autowired
 	LoadService loadService;
 	

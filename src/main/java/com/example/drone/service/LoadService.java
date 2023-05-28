@@ -7,10 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.drone.model.persistent.Drone;
 import com.example.drone.model.view.DroneVm;
 import com.example.drone.model.view.LoadRequestVm;
 import com.example.drone.model.view.MedicineVm;
+import com.example.drone.repository.BatteryCapacityRepository;
 import com.example.drone.repository.DroneRepository;
 import com.example.drone.repository.LoadMedicationRepository;
 import com.example.drone.repository.LoadRepository;
@@ -32,6 +32,9 @@ public class LoadService {
 	  @Autowired
 	  private MedicationRepository medicationRepository;
 	  
+	  @Autowired
+	  private BatteryCapacityRepository batteryCapacityRepository;
+	  
 	  @Transactional
 	  public List<Drone> getAvailable(){
 		  //System.out.println("called");
@@ -42,8 +45,12 @@ public class LoadService {
 	  public String loadManager(LoadRequestVm loadRequestVm){
 		  //System.out.println("called");
 		  String status;
-		  if(this.checkWeight(loadRequestVm)){
-			  
+		  if(!this.checkWeight(loadRequestVm)){
+			  status = "Drone can not handle the weight";
+		  }
+		  else if(!this.checkBattery(loadRequestVm.getDroneId())){
+			  status = "Low Battery power";
+		  }else {
 			  Load load = new Load();
 			  Drone drone = new Drone(loadRequestVm.getDroneId());
 			  load.setDroneId(drone);
@@ -65,13 +72,10 @@ public class LoadService {
 			  }
 			  status = "success";
 		  }
-		  else {
-			  status = "Drone can not handle the weight";
-		  }
 		  return status;
 	  }
 
-	  private boolean checkWeight(LoadRequestVm loadRequestVm) {
+	private boolean checkWeight(LoadRequestVm loadRequestVm) {
 		  Optional<Drone> drone = droneRepository.findById(loadRequestVm.getDroneId());
 		  if(drone.get().getWeightLimit() >= this.calculateTotalweight(loadRequestVm.getMedicines())) {
 			  	return true;
@@ -88,5 +92,17 @@ public class LoadService {
 			total = total + (medicineVm.getQuantity() * medication.get().getWeight());
 		}
 		return total;
+	}
+
+	private boolean checkBattery(Integer droneId) {
+		Drone drone = new Drone(droneId);
+		List<BatteryCapacity> batteryCapacities = batteryCapacityRepository.findByDroneIdAndRecordStatus(drone,"ACTIVE");
+		BatteryCapacity batteryCapacity = batteryCapacities.get(0);
+		if(batteryCapacity.getPercentage()<25) {
+			return false;
+		}
+		else{
+			return true;
+		}
 	}
 }

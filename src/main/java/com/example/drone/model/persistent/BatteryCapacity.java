@@ -43,7 +43,9 @@ public class BatteryCapacity implements Serializable {
     private Integer batteryCapacityId;
     @Column(name = "percentage")
     private Integer percentage;
-    @Column(name = "created_time")
+    @Column(name = "record_status")
+    private String recordStatus;
+	@Column(name = "created_time")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdTime;
     @JoinColumn(name = "drone_id", referencedColumnName = "drone_id")
@@ -72,6 +74,13 @@ public class BatteryCapacity implements Serializable {
     public void setPercentage(Integer percentage) {
         this.percentage = percentage;
     }
+    
+    public String getRecordStatus() {
+		return recordStatus;
+	}
+	public void setRecordStatus(String recordStatus) {
+		this.recordStatus = recordStatus;
+	}
 
     public Date getCreatedTime() {
         return createdTime;
