@@ -7,9 +7,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.drone.model.dto.MedicationDto;
 import com.example.drone.model.persistent.Drone;
+import com.example.drone.model.persistent.Medication;
 import com.example.drone.model.view.DroneVm;
 import com.example.drone.model.view.LoadRequestVm;
 import com.example.drone.service.LoadService;
@@ -25,6 +28,11 @@ public class LoadController {
     public List<Drone>  getAvailable() {
     	//System.out.println("name" + droneVm.getWeightLimit());
         return loadService.getAvailable();
+    }
+    @GetMapping("/medicine-by-drone")
+    public List<MedicationDto>  geMedicineForDrone(@RequestParam Integer droneId) {
+    	System.out.println("droneId" + droneId);
+        return loadService.getMedicineForDrone(droneId);
     }
     @PostMapping("/request")
     public String  request(@RequestBody LoadRequestVm loadRequestVm) {

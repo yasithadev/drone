@@ -1,5 +1,6 @@
 package com.example.drone.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,6 +16,7 @@ import com.example.drone.repository.DroneRepository;
 import com.example.drone.repository.LoadMedicationRepository;
 import com.example.drone.repository.LoadRepository;
 import com.example.drone.repository.MedicationRepository;
+import com.example.drone.model.dto.MedicationDto;
 import com.example.drone.model.persistent.*;
 
 @Service
@@ -104,5 +106,25 @@ public class LoadService {
 		else{
 			return true;
 		}
+	}
+
+	public List<MedicationDto> getMedicineForDrone(Integer droneId) {
+		Optional<Drone> droneOpt = droneRepository.findById(droneId);
+		System.out.println("droneOpt.get().getWeightLimit()" + droneOpt.get().getWeightLimit());
+		List<Medication> medications = medicationRepository.findByWeightLessThanEqual(droneOpt.get().getWeightLimit());
+		System.out.println("medications.size() " + medications.size() );
+		List<MedicationDto> medicationDtos = new ArrayList<MedicationDto>();
+		 for(Medication medication: medications){
+			 MedicationDto MedicationDto = new MedicationDto();
+			 MedicationDto.setMedicationId(medication.getMedicationId());
+			 MedicationDto.setCode(medication.getCode());
+			 MedicationDto.setName(medication.getName());
+			 MedicationDto.setWeight(medication.getWeight());
+			 if(medication.getImage() != null){
+				 MedicationDto.setImage(medication.getImage());
+			 }
+			 medicationDtos.add(MedicationDto);
+		 }
+		 return medicationDtos;
 	}
 }
