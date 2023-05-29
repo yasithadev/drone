@@ -16,6 +16,11 @@ import com.example.drone.repository.DroneRepository;
 import com.example.drone.repository.LoadMedicationRepository;
 import com.example.drone.repository.LoadRepository;
 import com.example.drone.repository.MedicationRepository;
+import com.example.drone.util.BatteryRecordStatus;
+import com.example.drone.util.DroneState;
+import com.example.drone.util.ErrorCode;
+import com.example.drone.util.LoadStatus;
+import com.example.drone.util.SuccessCode;
 import com.example.drone.model.dto.MedicationDto;
 import com.example.drone.model.persistent.*;
 import com.example.drone.model.dto.DroneDto;
@@ -42,7 +47,7 @@ public class LoadService {
 	  @Transactional
 	  public List<DroneDto> getAvailable(){
 		  //System.out.println("called");
-		  List<Drone> drones  = droneRepository.findByState("IDLE");
+		  List<Drone> drones  = droneRepository.findByState(DroneState.IDLE);
 		  List<DroneDto> droneDtos = new ArrayList<DroneDto>();
 		  for(Drone drone:drones) {
 			  DroneDto droneDto = new DroneDto();
@@ -62,23 +67,23 @@ public class LoadService {
 		  String status;
 		  Optional<Drone> droneOpt = droneRepository.findById(loadRequestVm.getDroneId());
 		  if(!droneOpt.isPresent()) {
-			  status = "wrong drone ID";
+			  status = ErrorCode.INCORRECT_DRONE_ID_102;
 		  }
-		  else if(!droneOpt.get().getState().equals("IDLE")) {
-			  status = "requested drone is not idle ";
+		  else if(!droneOpt.get().getState().equals(DroneState.IDLE)) {
+			  status = ErrorCode.DRONE_NOT_IDLE_103;
 		  }
 		  else if(!this.checkWeight(droneOpt.get(),loadRequestVm)){
-			  status = "Drone can not handle the weight";
+			  status = ErrorCode.OVER_WEIGHT_104;
 		  }
 		  else if(!this.checkBattery(loadRequestVm.getDroneId())){
-			  status = "Low Battery power";
+			  status = ErrorCode.BATTERY_LOW_105;
 		  }else {
 			  Drone drone = droneOpt.get();
-			  drone.setState("LOADED");
+			  drone.setState(DroneState.LOADED);
 		      droneRepository.save(drone);
 				  
 			  Load load = new Load();
-		      load.setLoadStatus("LOADED");
+		      load.setLoadStatus(LoadStatus.LOADED);
 			  //Drone drone = new Drone(loadRequestVm.getDroneId());
 			  load.setDroneId(droneOpt.get());
 			  load = loadRepository.save(load);
@@ -96,7 +101,7 @@ public class LoadService {
 				  loadMedication.setQuantity(medicineVm.getQuantity());
 				  loadMedicationRepository.save(loadMedication);
 			  }
-			  status = "success";
+			  status = SuccessCode.LOADED_002;
 		  }
 		  return status;
 	  }
@@ -121,7 +126,7 @@ public class LoadService {
 
 	private boolean checkBattery(Integer droneId) {
 		Drone drone = new Drone(droneId);
-		List<BatteryCapacity> batteryCapacities = batteryCapacityRepository.findByDroneIdAndRecordStatus(drone,"ACTIVE");
+		List<BatteryCapacity> batteryCapacities = batteryCapacityRepository.findByDroneIdAndRecordStatus(drone,BatteryRecordStatus.ACTIVE);
 		BatteryCapacity batteryCapacity;
 		if(batteryCapacities.size()>0){
 			batteryCapacity = batteryCapacities.get(0);
@@ -139,7 +144,7 @@ public class LoadService {
 	public List<MedicationDto> getMedicineForDrone(Integer droneId) {
 		Optional<Drone> droneOpt = droneRepository.findById(droneId);
 		//System.out.println("droneOpt.get().getWeightLimit()" + droneOpt.get().getWeightLimit());
-		List<Load> loads = loadRepository.findByDroneIdAndLoadStatus(droneOpt.get(),"LOADED");
+		List<Load> loads = loadRepository.findByDroneIdAndLoadStatus(droneOpt.get(),LoadStatus.LOADED);
 		//System.out.println("medications.size() " + medications.size() );
 		Load load  = loads.get(0);
 		List<MedicationDto> medicationDtos = new ArrayList<MedicationDto>();
