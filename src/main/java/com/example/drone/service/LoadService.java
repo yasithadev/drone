@@ -122,7 +122,12 @@ public class LoadService {
 	private boolean checkBattery(Integer droneId) {
 		Drone drone = new Drone(droneId);
 		List<BatteryCapacity> batteryCapacities = batteryCapacityRepository.findByDroneIdAndRecordStatus(drone,"ACTIVE");
-		BatteryCapacity batteryCapacity = batteryCapacities.get(0);
+		BatteryCapacity batteryCapacity;
+		if(batteryCapacities.size()>0){
+			batteryCapacity = batteryCapacities.get(0);
+		}else {
+			return false;//TODO:in this case method should return object with message "battery percentage record not found"
+		}
 		if(batteryCapacity.getPercentage()<25) {
 			return false;
 		}
@@ -133,18 +138,19 @@ public class LoadService {
 
 	public List<MedicationDto> getMedicineForDrone(Integer droneId) {
 		Optional<Drone> droneOpt = droneRepository.findById(droneId);
-		System.out.println("droneOpt.get().getWeightLimit()" + droneOpt.get().getWeightLimit());
-		List<Medication> medications = medicationRepository.findByWeightLessThanEqual(droneOpt.get().getWeightLimit());
-		System.out.println("medications.size() " + medications.size() );
+		//System.out.println("droneOpt.get().getWeightLimit()" + droneOpt.get().getWeightLimit());
+		List<Load> loads = loadRepository.findByDroneIdAndLoadStatus(droneOpt.get(),"LOADED");
+		//System.out.println("medications.size() " + medications.size() );
+		Load load  = loads.get(0);
 		List<MedicationDto> medicationDtos = new ArrayList<MedicationDto>();
-		 for(Medication medication: medications){
+		 for(LoadMedication loadMedication:load.getLoadMedicationCollection()){
 			 MedicationDto MedicationDto = new MedicationDto();
-			 MedicationDto.setMedicationId(medication.getMedicationId());
-			 MedicationDto.setCode(medication.getCode());
-			 MedicationDto.setName(medication.getName());
-			 MedicationDto.setWeight(medication.getWeight());
-			 if(medication.getImage() != null){
-				 MedicationDto.setImage(medication.getImage());
+			 MedicationDto.setMedicationId(loadMedication.getMedicationId().getMedicationId());
+			 MedicationDto.setCode(loadMedication.getMedicationId().getCode());
+			 MedicationDto.setName(loadMedication.getMedicationId().getName());
+			 MedicationDto.setWeight(loadMedication.getMedicationId().getWeight());
+			 if(loadMedication.getMedicationId().getImage() != null){
+				 MedicationDto.setImage(loadMedication.getMedicationId().getImage());
 			 }
 			 medicationDtos.add(MedicationDto);
 		 }

@@ -42,4 +42,10 @@ public class LoadController {
     	String status  = loadService.loadManager(loadRequestVm);
         return status;
     }
+    //loded-items-by-drone?droneId=2 //check loadable items for drone before load
+    @GetMapping("/loded-items-by-drone")
+    public List<MedicationDto>  lodedItemsByDrone(@RequestParam Integer droneId) {
+       	System.out.println("droneId" + droneId);
+       	return loadService.getMedicineForDrone(droneId);
+    }
 }

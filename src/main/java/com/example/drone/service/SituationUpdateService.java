@@ -50,10 +50,12 @@ public class SituationUpdateService {
 		
 		Drone drone = new Drone(batteryPercentageVm.getDroneId());
 		List<BatteryCapacity> batteryCapacities = batteryCapacityRepository.findByDroneIdAndRecordStatus(drone,"ACTIVE");
-		BatteryCapacity batteryCapacity = batteryCapacities.get(0);
-		batteryCapacity.setRecordStatus("INACTIVE");
-		batteryCapacityRepository.save(batteryCapacity);
-
+		BatteryCapacity batteryCapacity;
+		if(batteryCapacities.size()>0){
+			batteryCapacity = batteryCapacities.get(0);
+			batteryCapacity.setRecordStatus("INACTIVE");
+			batteryCapacityRepository.save(batteryCapacity);
+		}
 		batteryCapacity = new BatteryCapacity();
 		batteryCapacity.setDroneId(drone);
 		batteryCapacity.setPercentage(batteryPercentageVm.getPercentage());
