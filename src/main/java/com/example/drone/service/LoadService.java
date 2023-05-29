@@ -143,22 +143,22 @@ public class LoadService {
 
 	public List<MedicationDto> getMedicineForDrone(Integer droneId) {
 		Optional<Drone> droneOpt = droneRepository.findById(droneId);
-		//System.out.println("droneOpt.get().getWeightLimit()" + droneOpt.get().getWeightLimit());
 		List<Load> loads = loadRepository.findByDroneIdAndLoadStatus(droneOpt.get(),LoadStatus.LOADED);
-		//System.out.println("medications.size() " + medications.size() );
-		Load load  = loads.get(0);
 		List<MedicationDto> medicationDtos = new ArrayList<MedicationDto>();
-		 for(LoadMedication loadMedication:load.getLoadMedicationCollection()){
-			 MedicationDto MedicationDto = new MedicationDto();
-			 MedicationDto.setMedicationId(loadMedication.getMedicationId().getMedicationId());
-			 MedicationDto.setCode(loadMedication.getMedicationId().getCode());
-			 MedicationDto.setName(loadMedication.getMedicationId().getName());
-			 MedicationDto.setWeight(loadMedication.getMedicationId().getWeight());
-			 if(loadMedication.getMedicationId().getImage() != null){
-				 MedicationDto.setImage(loadMedication.getMedicationId().getImage());
+		if(loads.size()>0) {
+			 Load load  = loads.get(0);
+			 for(LoadMedication loadMedication:load.getLoadMedicationCollection()){
+				 MedicationDto MedicationDto = new MedicationDto();
+				 MedicationDto.setMedicationId(loadMedication.getMedicationId().getMedicationId());
+				 MedicationDto.setCode(loadMedication.getMedicationId().getCode());
+				 MedicationDto.setName(loadMedication.getMedicationId().getName());
+				 MedicationDto.setWeight(loadMedication.getMedicationId().getWeight());
+				 if(loadMedication.getMedicationId().getImage() != null){
+					 MedicationDto.setImage(loadMedication.getMedicationId().getImage());
+				 }
+				 medicationDtos.add(MedicationDto);
 			 }
-			 medicationDtos.add(MedicationDto);
-		 }
-		 return medicationDtos;
+		}
+		return medicationDtos;
 	}
 }
