@@ -3,6 +3,7 @@ package com.example.drone.model.view;
 public class DroneStateVm {
 
 	Integer droneId;
+	
     String state;
     public Integer getDroneId() {
 		return droneId;

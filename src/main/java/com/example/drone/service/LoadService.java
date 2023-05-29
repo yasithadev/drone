@@ -18,6 +18,8 @@ import com.example.drone.repository.LoadRepository;
 import com.example.drone.repository.MedicationRepository;
 import com.example.drone.model.dto.MedicationDto;
 import com.example.drone.model.persistent.*;
+import com.example.drone.model.dto.DroneDto;
+
 
 @Service
 public class LoadService {
@@ -38,38 +40,60 @@ public class LoadService {
 	  private BatteryCapacityRepository batteryCapacityRepository;
 	  
 	  @Transactional
-	  public List<Drone> getAvailable(){
+	  public List<DroneDto> getAvailable(){
 		  //System.out.println("called");
-		  return droneRepository.findByState("IDLE");
+		  List<Drone> drones  = droneRepository.findByState("IDLE");
+		  List<DroneDto> droneDtos = new ArrayList<DroneDto>();
+		  for(Drone drone:drones) {
+			  DroneDto droneDto = new DroneDto();
+			  droneDto.setDroneId(drone.getDroneId());
+			  droneDto.setSerialNumber(drone.getSerialNumber());
+			  droneDto.setModel(drone.getModel());
+			  droneDto.setWeightLimit(drone.getWeightLimit());
+			  droneDto.setState(drone.getState());
+			  droneDtos.add(droneDto);
+		  }
+		  return droneDtos;
 	  }
 	 
 	  @Transactional
 	  public String loadManager(LoadRequestVm loadRequestVm){
 		  //System.out.println("called");
 		  String status;
-		  if(!this.checkWeight(loadRequestVm)){
+		  Optional<Drone> droneOpt = droneRepository.findById(loadRequestVm.getDroneId());
+		  if(!droneOpt.isPresent()) {
+			  status = "wrong drone ID";
+		  }
+		  else if(!droneOpt.get().getState().equals("IDLE")) {
+			  status = "requested drone is not idle ";
+		  }
+		  else if(!this.checkWeight(droneOpt.get(),loadRequestVm)){
 			  status = "Drone can not handle the weight";
 		  }
 		  else if(!this.checkBattery(loadRequestVm.getDroneId())){
 			  status = "Low Battery power";
 		  }else {
+			  Drone drone = droneOpt.get();
+			  drone.setState("LOADED");
+		      droneRepository.save(drone);
+				  
 			  Load load = new Load();
-			  Drone drone = new Drone(loadRequestVm.getDroneId());
-			  load.setDroneId(drone);
+		      load.setLoadStatus("LOADED");
+			  //Drone drone = new Drone(loadRequestVm.getDroneId());
+			  load.setDroneId(droneOpt.get());
 			  load = loadRepository.save(load);
-			  
+				  
 			  LoadMedication loadMedication;
 			  for(MedicineVm medicineVm:loadRequestVm.getMedicines()){
-				 
+					 
 				  loadMedication = new LoadMedication();
 				  loadMedication.setLoadId(load);
-				  
+					  
 				  Medication medication = new Medication();
 				  medication.setMedicationId(medicineVm.getMedicineId());
 				  loadMedication.setMedicationId(medication);
-				  
+					  
 				  loadMedication.setQuantity(medicineVm.getQuantity());
-				  
 				  loadMedicationRepository.save(loadMedication);
 			  }
 			  status = "success";
@@ -77,9 +101,8 @@ public class LoadService {
 		  return status;
 	  }
 
-	private boolean checkWeight(LoadRequestVm loadRequestVm) {
-		  Optional<Drone> drone = droneRepository.findById(loadRequestVm.getDroneId());
-		  if(drone.get().getWeightLimit() >= this.calculateTotalweight(loadRequestVm.getMedicines())) {
+		private boolean checkWeight(Drone drone,LoadRequestVm loadRequestVm) {
+		  if(drone.getWeightLimit() >= this.calculateTotalweight(loadRequestVm.getMedicines())) {
 			  	return true;
 		  }
 		  else {

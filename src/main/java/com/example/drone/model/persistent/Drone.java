@@ -25,15 +25,6 @@ import jakarta.persistence.Table;
  */
 @Entity
 @Table(name = "drone")
-/*
-@NamedQueries({
-    @NamedQuery(name = "Drone.findAll", query = "SELECT d FROM Drone d"),
-    @NamedQuery(name = "Drone.findByDroneId", query = "SELECT d FROM Drone d WHERE d.droneId = :droneId"),
-    @NamedQuery(name = "Drone.findBySerialNumber", query = "SELECT d FROM Drone d WHERE d.serialNumber = :serialNumber"),
-    @NamedQuery(name = "Drone.findByModel", query = "SELECT d FROM Drone d WHERE d.model = :model"),
-    @NamedQuery(name = "Drone.findByWeightLimit", query = "SELECT d FROM Drone d WHERE d.weightLimit = :weightLimit"),
-    @NamedQuery(name = "Drone.findByState", query = "SELECT d FROM Drone d WHERE d.state = :state")})
-    */
 public class Drone implements Serializable {
 
     private static final long serialVersionUID = 1L;

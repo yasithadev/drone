@@ -27,11 +27,6 @@ import jakarta.persistence.Table;
  */
 @Entity
 @Table(name = "load_")
-/*
-@NamedQueries({
-    @NamedQuery(name = "Load.findAll", query = "SELECT l FROM Load l"),
-    @NamedQuery(name = "Load.findByLoadId", query = "SELECT l FROM Load l WHERE l.loadId = :loadId")})
-*/
 public class Load implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -45,8 +40,10 @@ public class Load implements Serializable {
     @JoinColumn(name = "drone_id", referencedColumnName = "drone_id")
     @ManyToOne(optional = false)
     private Drone droneId;
+    @Column(name = "load_status")
+    private String loadStatus;
 
-    public Load() {
+	public Load() {
     }
 
     public Load(Integer loadId) {
@@ -77,6 +74,14 @@ public class Load implements Serializable {
         this.droneId = droneId;
     }
 
+    public String getLoadStatus() {
+		return loadStatus;
+	}
+
+	public void setLoadStatus(String loadStatus) {
+		this.loadStatus = loadStatus;
+	}
+	
     @Override
     public int hashCode() {
         int hash = 0;

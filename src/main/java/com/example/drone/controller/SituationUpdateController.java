@@ -13,6 +13,8 @@ import com.example.drone.model.view.LoadRequestVm;
 import com.example.drone.service.LoadService;
 import com.example.drone.service.SituationUpdateService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/situation-update")
 public class SituationUpdateController {
@@ -21,14 +23,11 @@ public class SituationUpdateController {
 	
     @PutMapping("/drone-state")
     public String  DroneState(@RequestBody DroneStateVm droneStateVm) {
-    	//System.out.println("DroneStateVm Id " + droneStateVm.getDroneId());
     	String status  = situationService.updateDroneState(droneStateVm);
         return status;
     }
     @PostMapping("/battery-percentage")
-    public String  batteryPercentage(@RequestBody BatteryPercentageVm batteryPercentageVm) {
-    	//System.out.println("loadRequestVm Id " + loadRequestVm.getDroneId());
-    	//System.out.println("loadRequestVm getMedicineId " + loadRequestVm.getMedicines().get(0).getMedicineId());
+    public String  batteryPercentage(@RequestBody @Valid BatteryPercentageVm batteryPercentageVm) {
     	String status  = situationService.updateBatteryPercentage(batteryPercentageVm);
         return status;
     }

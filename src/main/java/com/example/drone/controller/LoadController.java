@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.drone.model.dto.DroneDto;
 import com.example.drone.model.dto.MedicationDto;
 import com.example.drone.model.persistent.Drone;
 import com.example.drone.model.persistent.Medication;
@@ -25,10 +26,10 @@ public class LoadController {
 	LoadService loadService;
 	
     @GetMapping("/available")
-    public List<Drone>  getAvailable() {
-    	//System.out.println("name" + droneVm.getWeightLimit());
+    public List<DroneDto>   getAvailable() {
         return loadService.getAvailable();
     }
+    //check loadable items for drone before load
     @GetMapping("/medicine-by-drone")
     public List<MedicationDto>  geMedicineForDrone(@RequestParam Integer droneId) {
     	System.out.println("droneId" + droneId);

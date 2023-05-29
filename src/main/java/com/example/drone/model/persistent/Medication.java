@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.example.drone.model.persistent;
 
 import java.io.Serializable;
@@ -26,12 +21,6 @@ import jakarta.persistence.Table;
  */
 @Entity
 @Table(name = "medication")
-@NamedQueries({
-    @NamedQuery(name = "Medication.findAll", query = "SELECT m FROM Medication m"),
-    @NamedQuery(name = "Medication.findByMedicationId", query = "SELECT m FROM Medication m WHERE m.medicationId = :medicationId"),
-    @NamedQuery(name = "Medication.findByName", query = "SELECT m FROM Medication m WHERE m.name = :name"),
-    @NamedQuery(name = "Medication.findByWeight", query = "SELECT m FROM Medication m WHERE m.weight = :weight"),
-    @NamedQuery(name = "Medication.findByCode", query = "SELECT m FROM Medication m WHERE m.code = :code")})
 public class Medication implements Serializable {
 
     private static final long serialVersionUID = 1L;
