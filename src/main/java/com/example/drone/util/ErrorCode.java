@@ -6,4 +6,5 @@ public class ErrorCode {
 	public static final String DRONE_NOT_IDLE_103 = "103:requested drone is busy";
 	public static final String OVER_WEIGHT_104 = "104:requested drone can not handle the total weight";
 	public static final String BATTERY_LOW_105 = "105:battery low";
+	public static final String VALIDATION_ERRORS_106 = "106:Validation errors";
 }

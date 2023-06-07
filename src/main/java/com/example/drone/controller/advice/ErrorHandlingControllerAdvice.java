@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 
 import com.example.drone.model.error.ValidationErrorResponse;
 import com.example.drone.model.error.Violation;
+import com.example.drone.util.ErrorCode;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
@@ -27,7 +28,7 @@ public class ErrorHandlingControllerAdvice {
 	  ValidationErrorResponse onConstraintValidationException(ConstraintViolationException e) {
 		ValidationErrorResponse error = new ValidationErrorResponse();
 		error.setStatus(BAD_REQUEST);
-		error.setErrorMessage("set message from system var");
+		error.setErrorMessage(ErrorCode.VALIDATION_ERRORS_106);
 		error.setTimestamp(LocalDateTime.now());
 	    for (ConstraintViolation violation : e.getConstraintViolations()) {
 	      error.getViolations().add(new Violation(violation.getPropertyPath().toString(), violation.getMessage()));
@@ -41,7 +42,7 @@ public class ErrorHandlingControllerAdvice {
 	  ValidationErrorResponse onMethodArgumentNotValidException(MethodArgumentNotValidException e) {
 		ValidationErrorResponse error = new ValidationErrorResponse();
 		error.setStatus(BAD_REQUEST);
-		error.setErrorMessage("set message from system var");
+		error.setErrorMessage(ErrorCode.VALIDATION_ERRORS_106);
 		error.setTimestamp(LocalDateTime.now());
 	    for (FieldError fieldError : e.getBindingResult().getFieldErrors()) {
 	    	//System.out.println("fieldError.getDefaultMessage() " + fieldError.getDefaultMessage());
