@@ -2,6 +2,9 @@ package com.example.drone.model.persistent;
 
 import java.io.Serializable;
 import java.util.Collection;
+
+import com.example.drone.model.view.MedicineVm;
+
 import jakarta.persistence.Basic;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -14,11 +17,13 @@ import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.Builder;
 
 /**
  *
  * @author yasitha
  */
+@Builder
 @Entity
 @Table(name = "medication")
 public class Medication implements Serializable {
@@ -43,7 +48,16 @@ public class Medication implements Serializable {
 
     public Medication() {
     }
-
+	public Medication(Integer medicationId, String name, Integer weight, String code, String image,
+			Collection<LoadMedication> loadMedicationCollection) {
+		super();
+		this.medicationId = medicationId;
+		this.name = name;
+		this.weight = weight;
+		this.code = code;
+		this.image = image;
+		this.loadMedicationCollection = loadMedicationCollection;
+	}
     public Medication(Integer medicationId) {
         this.medicationId = medicationId;
     }
@@ -120,5 +134,5 @@ public class Medication implements Serializable {
     public String toString() {
         return "javaapplication4.jpa.Medication[ medicationId=" + medicationId + " ]";
     }
-    
+   
 }

@@ -115,10 +115,11 @@ public class LoadService {
 		  }
 	  }
 
-	private Integer calculateTotalweight(List<MedicineVm> medicines) {
+	public Integer calculateTotalweight(List<MedicineVm> medicines) {
 		Integer total=0;
 		for(MedicineVm medicineVm:medicines){
 			Optional<Medication> medication = medicationRepository.findById(medicineVm.getMedicineId());
+			//System.out.println("medicineVm.getQuantity()" + medicineVm.getQuantity() + "medication.get().getWeight()" + medication.get().getWeight());
 			total = total + (medicineVm.getQuantity() * medication.get().getWeight());
 		}
 		return total;

@@ -1,5 +1,8 @@
 package com.example.drone.model.view;
 
+import lombok.Builder;
+
+@Builder
 public class MedicineVm {
 
 	Integer medicineId;
