@@ -51,6 +51,7 @@
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
+			<scope>provided</scope><!-- "provided" because unit testing giving errors-->
 			<optional>true</optional>
 		</dependency>
 	</dependencies>

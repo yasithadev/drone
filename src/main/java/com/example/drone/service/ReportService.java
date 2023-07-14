@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.drone.model.dto.BatteryCapacityDto;
 import com.example.drone.model.persistent.BatteryCapacity;
-import com.example.drone.model.view.BatteryLevelAuditReportVm;
+import com.example.drone.model.viewmodel.BatteryLevelAuditReportVm;
 import com.example.drone.repository.BatteryCapacityRepository;
 
 import java.text.SimpleDateFormat;  

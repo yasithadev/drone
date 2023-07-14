@@ -12,9 +12,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import com.example.drone.model.view.MedicineVm;
+import com.example.drone.model.viewmodel.MedicineVm;
 import com.example.drone.repository.BatteryCapacityRepository;
 import com.example.drone.repository.DroneRepository;
 import com.example.drone.repository.LoadMedicationRepository;
@@ -23,7 +22,6 @@ import com.example.drone.repository.MedicationRepository;
 
 //import lombok.var;
 
-import com.example.drone.model.persistent.Drone;
 import com.example.drone.model.persistent.Medication;
 
 

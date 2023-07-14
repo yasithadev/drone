@@ -43,7 +43,7 @@ public class ErrorHandlingControllerAdvice {
 		ValidationErrorResponse error = new ValidationErrorResponse();
 		error.setStatus(BAD_REQUEST);
 		error.setErrorMessage(ErrorCode.VALIDATION_ERRORS_106);
-		error.setTimestamp(LocalDateTime.now());
+		//error.setTimestamp(LocalDateTime.now());
 	    for (FieldError fieldError : e.getBindingResult().getFieldErrors()) {
 	    	//System.out.println("fieldError.getDefaultMessage() " + fieldError.getDefaultMessage());
 	    	//System.out.println("fieldError.toString() " + fieldError.toString());

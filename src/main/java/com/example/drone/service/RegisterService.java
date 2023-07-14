@@ -6,8 +6,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.drone.model.persistent.Drone;
 import com.example.drone.model.persistent.Medication;
-import com.example.drone.model.view.DroneVm;
-import com.example.drone.model.view.MedicineRegistrationVm;
+import com.example.drone.model.viewmodel.DroneVm;
+import com.example.drone.model.viewmodel.MedicineRegistrationVm;
 import com.example.drone.repository.DroneRepository;
 import com.example.drone.repository.MedicationRepository;
 

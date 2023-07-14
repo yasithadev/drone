@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.drone.model.view.DroneVm;
-import com.example.drone.model.view.MedicineRegistrationVm;
+import com.example.drone.model.viewmodel.DroneVm;
+import com.example.drone.model.viewmodel.MedicineRegistrationVm;
 import com.example.drone.service.RegisterService;
 
 import jakarta.validation.Valid;

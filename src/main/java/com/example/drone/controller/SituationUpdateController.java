@@ -7,10 +7,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.drone.model.view.BatteryPercentageVm;
-import com.example.drone.model.view.DroneStateVm;
-import com.example.drone.model.view.LoadRequestVm;
-import com.example.drone.service.LoadService;
+import com.example.drone.model.viewmodel.BatteryPercentageVm;
+import com.example.drone.model.viewmodel.DroneStateVm;
 import com.example.drone.service.SituationUpdateService;
 
 import jakarta.validation.Valid;

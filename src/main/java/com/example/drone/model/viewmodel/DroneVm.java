@@ -1,4 +1,4 @@
-package com.example.drone.model.view;
+package com.example.drone.model.viewmodel;
 
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Pattern;

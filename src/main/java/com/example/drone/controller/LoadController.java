@@ -12,12 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.drone.model.dto.DroneDto;
 import com.example.drone.model.dto.MedicationDto;
-import com.example.drone.model.persistent.Drone;
-import com.example.drone.model.persistent.Medication;
-import com.example.drone.model.view.DroneVm;
-import com.example.drone.model.view.LoadRequestVm;
+import com.example.drone.model.viewmodel.LoadRequestVm;
 import com.example.drone.service.LoadService;
-import com.example.drone.service.RegisterService;
 
 @RestController
 @RequestMapping("/load")

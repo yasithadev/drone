@@ -8,9 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.drone.model.view.DroneVm;
-import com.example.drone.model.view.LoadRequestVm;
-import com.example.drone.model.view.MedicineVm;
+import com.example.drone.model.viewmodel.LoadRequestVm;
+import com.example.drone.model.viewmodel.MedicineVm;
 import com.example.drone.repository.BatteryCapacityRepository;
 import com.example.drone.repository.DroneRepository;
 import com.example.drone.repository.LoadMedicationRepository;
